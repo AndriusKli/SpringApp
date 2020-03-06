@@ -28,6 +28,14 @@ public class UserController {
         return userDao.getUsers();
     }
 
+    @RequestMapping(path = "/{userName}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ApiOperation(value = "Get user", notes = "Returns a single user by their username. If no user is found, returns null.")
+    public User getUser(@PathVariable final String userName) {
+        System.out.println("Retrieving user by username: " + userName);
+        return userDao.getUser(userName);
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Create user", notes = "Creates a new user.")
@@ -35,16 +43,6 @@ public class UserController {
         userDao.createUser(new User(createUserCommand.getUserName(), createUserCommand.getName(), createUserCommand.getSurname(), createUserCommand.getEmail()));
         System.out.println(createUserCommand);
     }
-
-// Dummy value @  localhost:1234/users
-//    {
-//        "email": "kliunka@gmail.com",
-//        "name": "andrius",
-//        "surname": "kliunka",
-//        "userName": "andriuxxx"
-//    }
-//
-//    http://localhost:1234/swagger-ui.html
 
     @RequestMapping(path = "/{userName}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
